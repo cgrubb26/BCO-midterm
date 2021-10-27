@@ -1,0 +1,289 @@
+{
+    "object_id": "https://biocomputeobject.org/BCO_18/1.0",
+    "spec_version": "IEEE",
+    "provenance_domain": {
+        "name": "Machine Learning with random subspace ensembles identifies AMR determinants from pan-genomes of three pathogens",
+        "version": "1",
+        "created": "2020-03-02",
+        "modified": "",
+        "contributors": [
+            {
+                "contribution": [
+                    "createdBy",
+                    "curatedBy"
+                ],
+                "name": "Christopher J Grubb",
+                "affiliation": "GWU",
+                "email": "chrisgrubb@gwu.edu"
+            }
+        ],
+        "license": "https://spdx.org/licenses/CC-BY-4.0.html"
+    },
+    "usability_domain": [
+        "Genomes of antimicrobial resistant strains of S. aureus, P. aeruginosa, and E. coli were combined into pan-genomes, checked for common gene clusters, and then encoded as a binary vector based on the presence or absence of every gene cluster. "
+    ],
+    "description_domain": {
+        "keywords": [
+            "Antimicrobial Resistance"
+        ],
+        "pipeline_steps": [
+            {
+                "step_number": 0,
+                "name": "Select AMR genomes from PATRIC database",
+                "description": "Genomes that met the following criteria were selected from PATRIC database: 1. At least one experimentally measured antimicrobial resistance phenotype was associated with genome, 2. sequence is not plasmid only, and 3. there are at most 100 contigs for S. aureus assemblies or at most 250 contigs for P. aeruginosa.",
+                "input_list": [
+                    {
+                        "uri": {
+                            "uri": "PATRICbrc.org"
+                        }
+                    }
+                ],
+                "output_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s020"
+                        },
+                        "filename": "",
+                        "access_time": "",
+                        "sha1_checksum": ""
+                    }
+                ]
+            },
+            {
+                "step_number": 0,
+                "name": "Construct Pan-Genomes",
+                "description": "PATRIC genome annotations from step 1 were used to construct pan-genomes using CD-Hit. The sequence identity threshold was set at 0.8 and word length set to 5.",
+                "input_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s020"
+                        }
+                    }
+                ],
+                "output_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s001"
+                        }
+                    }
+                ]
+            },
+            {
+                "step_number": 1,
+                "name": "Calculate number of genomes for each gene cluster",
+                "description": "The number of genomes each gene cluster was observed in was computed. These were calculated from an increasingly relaxed threshold for core gene.",
+                "input_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s020"
+                        }
+                    }
+                ],
+                "output_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s012"
+                        }
+                    }
+                ]
+            },
+            {
+                "step_number": 2,
+                "name": "Construct each genome as a primary vector",
+                "description": "For each pan-genome, each genome was encoded as a primary vector, based on the presence or absence of every gene cluster and every allele of every gene cluster observed for that organism. Core genes were only analyzed at allele level and non-core genes were analyzed at gene level. ",
+                "input_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s012"
+                        }
+                    }
+                ],
+                "output_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s013"
+                        }
+                    }
+                ]
+            },
+            {
+                "step_number": 3,
+                "name": "Convert each vector to a binary vector",
+                "description": "For each antibiotic, experimental AMR phenotypes were converted to binary vectors by converting raw PATRIC AMR annotations \"susceptible\" to 0 and both \"resistant\" and \"intermediate\" to 1. \n",
+                "input_list": [
+                    {
+                        "uri": {
+                            "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s013"
+                        }
+                    }
+                ],
+                "output_list": [
+                    {
+                        "uri": {
+                            "uri": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007608#pcbi.1007608.s013"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "execution_domain": {
+        "script": [
+            {
+                "uri": {
+                    "uri": "https://github.com/weizhongli/cdhit/wiki",
+                    "filename": "CD-Hit v4.8.1"
+                }
+            }
+        ],
+        "script_driver": "Shell",
+        "software_prerequisites": [
+            {
+                "name": "CD-hit",
+                "version": "4.8.1",
+                "uri": {
+                    "uri": "http://bioinformatics.burnham-inst.org/cd-hi"
+                }
+            }
+        ],
+        "external_data_endpoints": [
+            {
+                "name": "PATRIC Bacterial Bioinformatics Resource Center",
+                "url": "PATRICbrc.org"
+            },
+            {
+                "name": "Supporting Information",
+                "url": "https://doi.org/10.1371/journal.pcbi.1007608"
+            }
+        ],
+        "environment_variables": {}
+    },
+    "io_domain": {
+        "input_subdomain": [
+            {
+                "uri": {
+                    "uri": "https://www.patricbrc.org/view/Taxonomy/2",
+                    "filename": "PATRIC genomes"
+                }
+            },
+            {
+                "uri": {
+                    "filename": "AMR Genomes",
+                    "uri": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007608#pcbi.1007608.s020",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            },
+            {
+                "uri": {
+                    "filename": "Core Genome Size",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s001",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            },
+            {
+                "uri": {
+                    "filename": "AMR Phenotype of PATRIC Genome",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s013",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            }
+        ],
+        "output_subdomain": [
+            {
+                "mediatype": "CSV",
+                "uri": {
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s020",
+                    "filename": "Selected Genome IDs"
+                }
+            },
+            {
+                "mediatype": "TIF",
+                "uri": {
+                    "filename": "Number of genomes per gene cluster",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s001",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            },
+            {
+                "mediatype": "DOCX",
+                "uri": {
+                    "filename": "Number of Core, Accessory, and Unique Genes ",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s012",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            },
+            {
+                "mediatype": "CSV",
+                "uri": {
+                    "filename": "Experimental AMR Phenotypes",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s013",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            },
+            {
+                "mediatype": "DOCX",
+                "uri": {
+                    "filename": "Distribution of Binary AMR",
+                    "uri": "https://doi.org/10.1371/journal.pcbi.1007608.s013",
+                    "access_time": "",
+                    "sha1_checksum": ""
+                }
+            }
+        ]
+    },
+    "parametric_domain": [
+        {
+            "param": "AMR resistance",
+            "value": "True",
+            "step": "1"
+        },
+        {
+            "step": "1",
+            "param": "Plasmid-only",
+            "value": "False"
+        },
+        {
+            "step": "1",
+            "param": "Number of Contigs",
+            "value": "<100"
+        },
+        {
+            "step": "2",
+            "param": "Sequence Identity Threshold",
+            "value": "0.8"
+        },
+        {
+            "step": "2",
+            "param": "Word Length",
+            "value": "5"
+        },
+        {
+            "step": "4",
+            "param": "Gene cluster",
+            "value": "Present"
+        },
+        {
+            "step": "5",
+            "param": "Antimicrobial Susceptible",
+            "value": "0"
+        },
+        {
+            "step": "5",
+            "param": "Antimicrobial Intermediate resistance",
+            "value": "1"
+        },
+        {
+            "step": "5",
+            "param": "Antimicrobial Resistance",
+            "value": "1"
+        }
+    ],
+    "error_domain": "",
+    "extension_domain": ""
+}
